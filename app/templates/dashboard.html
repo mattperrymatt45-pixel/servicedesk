@@ -3,148 +3,138 @@
 {% block title %}Analytics Dashboard - {{ app_name }}{% endblock %}
 
 {% block content %}
-<div class="space-y-6">
+<div class="space-y-4">
 
-    <!-- Header Banner -->
-    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 dark:border-slate-800 pb-5">
+    <!-- Header Bar -->
+    <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
         <div>
-            <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
-                <span>📊</span> Executive Analytics & Operations Dashboard
+            <h1 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <i data-lucide="bar-chart-2" class="w-4 h-4 text-slate-500"></i>
+                <span>Analytics & Operations Dashboard</span>
             </h1>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                Real-time operational metrics, ticket distribution trends, and AI assistant performance statistics.
-            </p>
+            <p class="text-xs text-slate-500">Real-time incident metrics, ticket breakdown, and AI triage performance.</p>
         </div>
         <div class="flex items-center gap-2">
-            <span class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-emerald-50 dark:bg-emerald-950/50 border border-emerald-200 dark:border-emerald-800 text-emerald-700 dark:text-emerald-400 text-xs font-semibold">
-                <span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-                <span>Live Data Sync</span>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 text-xs font-mono border border-slate-200 dark:border-slate-700">
+                <span class="h-1.5 w-1.5 rounded-full bg-emerald-500"></span> Live Data
             </span>
         </div>
     </div>
 
-    <!-- KPI Metric Cards Grid -->
-    <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-4 gap-4">
-        <!-- Total Tickets -->
-        <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-1">
+    <!-- Small Stat Cards Grid -->
+    <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-4 gap-3">
+        <div class="p-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-1">
             <div class="flex items-center justify-between text-slate-500 text-xs font-medium">
                 <span>Total Incidents</span>
-                <span>🎫</span>
+                <i data-lucide="ticket" class="w-3.5 h-3.5"></i>
             </div>
-            <div class="text-2xl font-extrabold text-slate-900 dark:text-white">{{ metrics.total_tickets }}</div>
-            <p class="text-[11px] text-slate-400">All recorded tickets</p>
+            <div class="text-xl font-bold text-slate-900 dark:text-white">{{ metrics.total_tickets }}</div>
+            <p class="text-[10px] text-slate-400">All recorded tickets</p>
         </div>
 
-        <!-- Open Incidents -->
-        <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-amber-200 dark:border-amber-900/50 shadow-sm space-y-1">
+        <div class="p-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-1">
             <div class="flex items-center justify-between text-amber-600 dark:text-amber-400 text-xs font-medium">
-                <span>Open Incidents</span>
-                <span>🟡</span>
+                <span>Open Queue</span>
+                <i data-lucide="clock" class="w-3.5 h-3.5"></i>
             </div>
-            <div class="text-2xl font-extrabold text-amber-600 dark:text-amber-400">{{ metrics.open_tickets }}</div>
-            <p class="text-[11px] text-slate-400">Awaiting assignment/fix</p>
+            <div class="text-xl font-bold text-amber-600 dark:text-amber-400">{{ metrics.open_tickets }}</div>
+            <p class="text-[10px] text-slate-400">Awaiting fix</p>
         </div>
 
-        <!-- In Progress -->
-        <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-indigo-200 dark:border-indigo-900/50 shadow-sm space-y-1">
-            <div class="flex items-center justify-between text-indigo-600 dark:text-indigo-400 text-xs font-medium">
+        <div class="p-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-1">
+            <div class="flex items-center justify-between text-blue-600 dark:text-blue-400 text-xs font-medium">
                 <span>In Progress</span>
-                <span>🔵</span>
+                <i data-lucide="activity" class="w-3.5 h-3.5"></i>
             </div>
-            <div class="text-2xl font-extrabold text-indigo-600 dark:text-indigo-400">{{ metrics.in_progress_tickets }}</div>
-            <p class="text-[11px] text-slate-400">Under active investigation</p>
+            <div class="text-xl font-bold text-blue-600 dark:text-blue-400">{{ metrics.in_progress_tickets }}</div>
+            <p class="text-[10px] text-slate-400">Active investigation</p>
         </div>
 
-        <!-- Resolved -->
-        <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-emerald-200 dark:border-emerald-900/50 shadow-sm space-y-1">
+        <div class="p-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-1">
             <div class="flex items-center justify-between text-emerald-600 dark:text-emerald-400 text-xs font-medium">
-                <span>Resolved Tickets</span>
-                <span>🟢</span>
+                <span>Resolved</span>
+                <i data-lucide="check-circle" class="w-3.5 h-3.5"></i>
             </div>
-            <div class="text-2xl font-extrabold text-emerald-600 dark:text-emerald-400">{{ metrics.resolved_tickets }}</div>
-            <p class="text-[11px] text-slate-400">Successfully closed</p>
+            <div class="text-xl font-bold text-emerald-600 dark:text-emerald-400">{{ metrics.resolved_tickets }}</div>
+            <p class="text-[10px] text-slate-400">Closed incidents</p>
         </div>
 
-        <!-- Urgent/Critical -->
-        <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-rose-200 dark:border-rose-900/50 shadow-sm space-y-1">
+        <div class="p-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-1">
             <div class="flex items-center justify-between text-rose-600 dark:text-rose-400 text-xs font-medium">
-                <span>Urgent Incidents</span>
-                <span>🔥</span>
+                <span>Urgent Priority</span>
+                <i data-lucide="alert-triangle" class="w-3.5 h-3.5"></i>
             </div>
-            <div class="text-2xl font-extrabold text-rose-600 dark:text-rose-400">{{ metrics.urgent_tickets }}</div>
-            <p class="text-[11px] text-slate-400">High severity tickets</p>
+            <div class="text-xl font-bold text-rose-600 dark:text-rose-400">{{ metrics.urgent_tickets }}</div>
+            <p class="text-[10px] text-slate-400">High severity</p>
         </div>
 
-        <!-- Avg Resolution Time -->
-        <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-purple-200 dark:border-purple-900/50 shadow-sm space-y-1">
-            <div class="flex items-center justify-between text-purple-600 dark:text-purple-400 text-xs font-medium">
-                <span>Avg Resolution Time</span>
-                <span>⌛</span>
-            </div>
-            <div class="text-2xl font-extrabold text-purple-600 dark:text-purple-400">{{ metrics.avg_resolution_hours }}<span class="text-xs font-normal"> hrs</span></div>
-            <p class="text-[11px] text-slate-400">Time to resolution</p>
-        </div>
-
-        <!-- AI Analyses -->
-        <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-brand-200 dark:border-brand-900/50 shadow-sm space-y-1">
-            <div class="flex items-center justify-between text-brand-600 dark:text-brand-400 text-xs font-medium">
-                <span>AI Triages Performed</span>
-                <span>🤖</span>
-            </div>
-            <div class="text-2xl font-extrabold text-brand-600 dark:text-brand-400">{{ metrics.ai_analyses }}</div>
-            <p class="text-[11px] text-slate-400">Groq LLM analyses</p>
-        </div>
-
-        <!-- KB Articles -->
-        <div class="p-4 rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm space-y-1">
+        <div class="p-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-1">
             <div class="flex items-center justify-between text-slate-500 text-xs font-medium">
-                <span>KB Repositories</span>
-                <span>📚</span>
+                <span>Avg Resolution Time</span>
+                <i data-lucide="timer" class="w-3.5 h-3.5"></i>
             </div>
-            <div class="text-2xl font-extrabold text-slate-900 dark:text-white">{{ metrics.total_kb }}</div>
-            <p class="text-[11px] text-slate-400">Indexed SOP articles</p>
+            <div class="text-xl font-bold text-slate-900 dark:text-white">{{ metrics.avg_resolution_hours }}<span class="text-xs font-normal"> hrs</span></div>
+            <p class="text-[10px] text-slate-400">Average duration</p>
+        </div>
+
+        <div class="p-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-1">
+            <div class="flex items-center justify-between text-indigo-600 dark:text-indigo-400 text-xs font-medium">
+                <span>AI Triages</span>
+                <i data-lucide="cpu" class="w-3.5 h-3.5"></i>
+            </div>
+            <div class="text-xl font-bold text-indigo-600 dark:text-indigo-400">{{ metrics.ai_analyses }}</div>
+            <p class="text-[10px] text-slate-400">Groq LLM triages</p>
+        </div>
+
+        <div class="p-3.5 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-1">
+            <div class="flex items-center justify-between text-slate-500 text-xs font-medium">
+                <span>KB Repository</span>
+                <i data-lucide="book-open" class="w-3.5 h-3.5"></i>
+            </div>
+            <div class="text-xl font-bold text-slate-900 dark:text-white">{{ metrics.total_kb }}</div>
+            <p class="text-[10px] text-slate-400">Indexed SOP articles</p>
         </div>
     </div>
 
-    <!-- Chart.js Visualizations Grid -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+    <!-- Charts Grid -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-        <!-- Chart 1: Status Distribution -->
-        <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 shadow-sm space-y-3">
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <span>🍩</span> Incidents by Status
+        <div class="p-4 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <i data-lucide="pie-chart" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Incidents by Status</span>
             </h3>
-            <div class="h-64 relative flex items-center justify-center">
+            <div class="h-56 relative flex items-center justify-center">
                 <canvas id="statusChart"></canvas>
             </div>
         </div>
 
-        <!-- Chart 2: Priority Distribution -->
-        <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 shadow-sm space-y-3">
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <span>📊</span> Incidents by Priority
+        <div class="p-4 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <i data-lucide="bar-chart-2" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Incidents by Priority</span>
             </h3>
-            <div class="h-64 relative flex items-center justify-center">
+            <div class="h-56 relative flex items-center justify-center">
                 <canvas id="priorityChart"></canvas>
             </div>
         </div>
 
-        <!-- Chart 3: Category Distribution -->
-        <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 shadow-sm space-y-3">
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <span>🏷️</span> Incidents by Top Categories
+        <div class="p-4 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <i data-lucide="tag" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Incidents by Top Categories</span>
             </h3>
-            <div class="h-64 relative flex items-center justify-center">
+            <div class="h-56 relative flex items-center justify-center">
                 <canvas id="categoryChart"></canvas>
             </div>
         </div>
 
-        <!-- Chart 4: Creation Trend -->
-        <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 shadow-sm space-y-3">
-            <h3 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <span>📈</span> Ticket Creation Trend
+        <div class="p-4 rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-xs space-y-2">
+            <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
+                <i data-lucide="trending-up" class="w-3.5 h-3.5 text-slate-400"></i>
+                <span>Ticket Creation Trend</span>
             </h3>
-            <div class="h-64 relative flex items-center justify-center">
+            <div class="h-56 relative flex items-center justify-center">
                 <canvas id="trendChart"></canvas>
             </div>
         </div>
@@ -163,36 +153,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const chartData = {{ chart_data | tojson }};
 
-    // 1. Status Chart (Doughnut)
     new Chart(document.getElementById('statusChart'), {
         type: 'doughnut',
         data: {
             labels: chartData.status.labels,
             datasets: [{
                 data: chartData.status.counts,
-                backgroundColor: ['#f59e0b', '#6366f1', '#10b981', '#64748b'],
+                backgroundColor: ['#f59e0b', '#3b82f6', '#10b981', '#64748b'],
                 borderWidth: 0
             }]
         },
         options: {
             responsive: true,
             maintainAspectRatio: false,
-            plugins: {
-                legend: { position: 'bottom', labels: { color: textColor, font: { size: 11 } } }
-            }
+            plugins: { legend: { position: 'bottom', labels: { color: textColor, font: { size: 10 } } } }
         }
     });
 
-    // 2. Priority Chart (Bar)
     new Chart(document.getElementById('priorityChart'), {
         type: 'bar',
         data: {
             labels: chartData.priority.labels,
             datasets: [{
-                label: 'Tickets',
                 data: chartData.priority.counts,
-                backgroundColor: ['#cbd5e1', '#3b82f6', '#f59e0b', '#f43f5e'],
-                borderRadius: 8
+                backgroundColor: ['#cbd5e1', '#3b82f6', '#f97316', '#f43f5e'],
+                borderRadius: 4
             }]
         },
         options: {
@@ -200,22 +185,20 @@ document.addEventListener('DOMContentLoaded', () => {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                x: { ticks: { color: textColor }, grid: { display: false } },
-                y: { ticks: { color: textColor, stepSize: 1 }, grid: { color: gridColor } }
+                x: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } },
+                y: { ticks: { color: textColor, stepSize: 1, font: { size: 10 } }, grid: { color: gridColor } }
             }
         }
     });
 
-    // 3. Category Chart (Horizontal Bar)
     new Chart(document.getElementById('categoryChart'), {
         type: 'bar',
         data: {
             labels: chartData.category.labels,
             datasets: [{
-                label: 'Incidents',
                 data: chartData.category.counts,
-                backgroundColor: '#8b5cf6',
-                borderRadius: 6
+                backgroundColor: '#4f46e5',
+                borderRadius: 4
             }]
         },
         options: {
@@ -224,25 +207,23 @@ document.addEventListener('DOMContentLoaded', () => {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                x: { ticks: { color: textColor, stepSize: 1 }, grid: { color: gridColor } },
-                y: { ticks: { color: textColor }, grid: { display: false } }
+                x: { ticks: { color: textColor, stepSize: 1, font: { size: 10 } }, grid: { color: gridColor } },
+                y: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } }
             }
         }
     });
 
-    // 4. Trend Chart (Line)
     new Chart(document.getElementById('trendChart'), {
         type: 'line',
         data: {
             labels: chartData.trend.labels,
             datasets: [{
-                label: 'Daily Tickets',
                 data: chartData.trend.counts,
-                borderColor: '#2563eb',
-                backgroundColor: 'rgba(37, 99, 235, 0.1)',
+                borderColor: '#4f46e5',
+                backgroundColor: 'rgba(79, 70, 229, 0.05)',
                 fill: true,
-                tension: 0.3,
-                pointRadius: 4
+                tension: 0.2,
+                pointRadius: 3
             }]
         },
         options: {
@@ -250,8 +231,8 @@ document.addEventListener('DOMContentLoaded', () => {
             maintainAspectRatio: false,
             plugins: { legend: { display: false } },
             scales: {
-                x: { ticks: { color: textColor }, grid: { display: false } },
-                y: { ticks: { color: textColor, stepSize: 1 }, grid: { color: gridColor } }
+                x: { ticks: { color: textColor, font: { size: 10 } }, grid: { display: false } },
+                y: { ticks: { color: textColor, stepSize: 1, font: { size: 10 } }, grid: { color: gridColor } }
             }
         }
     });

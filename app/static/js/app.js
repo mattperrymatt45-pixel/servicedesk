@@ -1,21 +1,18 @@
 /**
- * AI Service Desk Frontend Application JavaScript
- * Core utilities for UI feedback, dark mode, and toast notifications.
+ * Minimal Enterprise Application Utilities
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Initialize Dark Mode Toggle
     initDarkMode();
+    if (window.lucide) {
+        lucide.createIcons();
+    }
 });
 
-/**
- * Handles Dark Mode toggling and persistent user preference
- */
 function initDarkMode() {
     const themeToggleBtn = document.getElementById('theme-toggle');
     if (!themeToggleBtn) return;
 
-    // Check saved theme or system preference
     if (localStorage.getItem('color-theme') === 'dark' || 
         (!('color-theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
         document.documentElement.classList.add('dark');
@@ -34,41 +31,27 @@ function initDarkMode() {
     });
 }
 
-/**
- * Toast Notification Utility
- * @param {string} message 
- * @param {string} type - 'success', 'error', 'info', 'warning'
- */
 function showToast(message, type = 'info') {
     const toastContainer = document.getElementById('toast-container');
     if (!toastContainer) return;
 
     const toast = document.createElement('div');
     const colorClasses = {
-        success: 'bg-emerald-600 text-white',
-        error: 'bg-rose-600 text-white',
-        warning: 'bg-amber-500 text-white',
-        info: 'bg-indigo-600 text-white'
+        success: 'bg-emerald-700 text-white',
+        error: 'bg-rose-700 text-white',
+        warning: 'bg-amber-600 text-white',
+        info: 'bg-gray-900 text-white dark:bg-gray-100 dark:text-gray-900'
     };
 
-    const icons = {
-        success: '✓',
-        error: '✕',
-        warning: '⚠',
-        info: 'ℹ'
-    };
-
-    toast.className = `flex items-center gap-3 px-4 py-3 rounded-lg shadow-lg text-sm font-medium ${colorClasses[type] || colorClasses.info} animate-slide-in transition-all duration-300 transform`;
+    toast.className = `flex items-center gap-2 px-3 py-2 rounded text-xs font-medium shadow-md ${colorClasses[type] || colorClasses.info} transition-all duration-200`;
     toast.innerHTML = `
-        <span class="text-base font-bold">${icons[type] || 'ℹ'}</span>
         <span class="flex-1">${message}</span>
         <button onclick="this.parentElement.remove()" class="ml-2 hover:opacity-75 focus:outline-none">✕</button>
     `;
 
     toastContainer.appendChild(toast);
-
     setTimeout(() => {
-        toast.classList.add('opacity-0', 'scale-95');
-        setTimeout(() => toast.remove(), 300);
+        toast.style.opacity = '0';
+        setTimeout(() => toast.remove(), 200);
     }, 4000);
 }

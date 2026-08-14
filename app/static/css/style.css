@@ -1,35 +1,28 @@
-/* Custom styles for AI Service Desk */
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+/* Enterprise Minimal Design System */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
 
 body {
-    font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    color: #0f172a;
+    background-color: #f8fafc;
 }
 
-/* Glassmorphism card effects */
-.glass-card {
-    background: rgba(255, 255, 255, 0.85);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(229, 231, 235, 0.8);
+.dark body {
+    color: #f8fafc;
+    background-color: #090d16;
 }
 
-.dark .glass-card {
-    background: rgba(30, 41, 59, 0.85);
-    backdrop-filter: blur(12px);
-    border: 1px solid rgba(51, 65, 85, 0.8);
+/* Subtle Table Hover */
+.table-row-hover:hover {
+    background-color: #f1f5f9;
 }
 
-/* Toast Animations */
-@keyframes slideInRight {
-    from {
-        transform: translateX(100%);
-        opacity: 0;
-    }
-    to {
-        transform: translateX(0);
-        opacity: 1;
-    }
+.dark .table-row-hover:hover {
+    background-color: #1e293b;
 }
 
-.animate-slide-in {
-    animation: slideInRight 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+/* Input Focus States */
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
 }

@@ -3,44 +3,40 @@
 {% block title %}Create KB Article - {{ app_name }}{% endblock %}
 
 {% block content %}
-<div class="max-w-3xl mx-auto space-y-6">
-    <!-- Top Action / Breadcrumb -->
-    <div class="flex items-center justify-between">
-        <a href="/kb" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-brand-600 transition">
-            <span>←</span>
+<div class="max-w-2xl mx-auto space-y-4">
+    
+    <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+        <a href="/kb" class="inline-flex items-center gap-1 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
             <span>Back to Knowledge Base</span>
         </a>
     </div>
 
-    <!-- Form Container -->
-    <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 sm:p-8 shadow-sm space-y-6">
-        <div class="border-b border-slate-200 dark:border-slate-700 pb-4">
-            <h1 class="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white flex items-center gap-2">
-                <span>➕</span> Create Knowledge Base Article
+    <div class="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-xs space-y-4">
+        <div class="pb-3 border-b border-slate-200 dark:border-slate-800">
+            <h1 class="text-sm font-bold uppercase tracking-wider text-slate-900 dark:text-white flex items-center gap-1.5">
+                <i data-lucide="plus-circle" class="w-4 h-4 text-indigo-600"></i>
+                <span>Create Knowledge Base SOP Article</span>
             </h1>
-            <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
-                Add standard operating procedures or troubleshooting guides to assist engineers and Gemini AI.
-            </p>
         </div>
 
-        <form method="POST" action="/kb/new" class="space-y-5">
-            <!-- Article Title -->
-            <div class="space-y-1.5">
+        <form method="POST" action="/kb/new" class="space-y-4">
+            
+            <div class="space-y-1">
                 <label for="title" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                    Article Title <span class="text-rose-500">*</span>
+                    Title <span class="text-rose-500">*</span>
                 </label>
                 <input 
                     type="text" 
                     id="title" 
                     name="title" 
                     required 
-                    placeholder="e.g., Resolving VPN Disconnection Errors on Remote Machines"
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    placeholder="e.g. Resolving Corporate VPN Connection Errors"
+                    class="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:ring-1 focus:ring-indigo-500"
                 >
             </div>
 
-            <!-- Category Selection / Input -->
-            <div class="space-y-1.5">
+            <div class="space-y-1">
                 <label for="category" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
                     Category <span class="text-rose-500">*</span>
                 </label>
@@ -50,72 +46,70 @@
                     name="category" 
                     list="category-options" 
                     required 
-                    placeholder="Select or type category (e.g. Network & Connectivity)"
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    placeholder="e.g. Network & VPN"
+                    class="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:ring-1 focus:ring-indigo-500"
                 >
                 <datalist id="category-options">
                     {% for cat in categories %}
                         <option value="{{ cat }}"></option>
                     {% endfor %}
-                    <option value="Network & Connectivity"></option>
-                    <option value="Hardware & Peripherals"></option>
-                    <option value="Email & Messaging"></option>
-                    <option value="Software & Applications"></option>
-                    <option value="Security & Access"></option>
-                    <option value="System & Operating System"></option>
+                    <option value="Network & VPN"></option>
+                    <option value="Access Management"></option>
+                    <option value="Laptop / Endpoint"></option>
+                    <option value="Email & Collaboration"></option>
+                    <option value="Printers & Devices"></option>
+                    <option value="Security"></option>
+                    <option value="ERP / WMS"></option>
+                    <option value="Telephony"></option>
                 </datalist>
             </div>
 
-            <!-- Problem Statement -->
-            <div class="space-y-1.5">
+            <div class="space-y-1">
                 <label for="problem" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                    Problem Description / Symptoms <span class="text-rose-500">*</span>
+                    Problem Description <span class="text-rose-500">*</span>
                 </label>
                 <textarea 
                     id="problem" 
                     name="problem" 
                     rows="3" 
                     required 
-                    placeholder="Describe the issue, error messages, or symptoms users experience..."
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    placeholder="Describe the problem or error symptoms..."
+                    class="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:ring-1 focus:ring-indigo-500"
                 ></textarea>
             </div>
 
-            <!-- Solution / Resolution -->
-            <div class="space-y-1.5">
+            <div class="space-y-1">
                 <label for="solution" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                    Step-by-Step Solution / Fix <span class="text-rose-500">*</span>
+                    Step-by-Step Fix / Solution SOP <span class="text-rose-500">*</span>
                 </label>
                 <textarea 
                     id="solution" 
                     name="solution" 
                     rows="5" 
                     required 
-                    placeholder="Detail the exact troubleshooting steps, commands, or workarounds to resolve the issue..."
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    placeholder="Detail exact troubleshooting steps..."
+                    class="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:ring-1 focus:ring-indigo-500"
                 ></textarea>
             </div>
 
-            <!-- Keywords -->
-            <div class="space-y-1.5">
+            <div class="space-y-1">
                 <label for="keywords" class="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                    Search Tags & Keywords (Comma-Separated)
+                    Keywords (Comma-Separated)
                 </label>
                 <input 
                     type="text" 
                     id="keywords" 
                     name="keywords" 
-                    placeholder="e.g., vpn, network, disconnect, cisco, remote"
-                    class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 bg-slate-50 dark:bg-slate-900 text-slate-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
+                    placeholder="vpn, timeout, network, cisco"
+                    class="w-full px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 bg-slate-50 dark:bg-slate-950 text-xs text-slate-900 dark:text-white focus:ring-1 focus:ring-indigo-500"
                 >
             </div>
 
-            <!-- Form Actions -->
-            <div class="pt-4 flex items-center justify-end gap-3 border-t border-slate-200 dark:border-slate-700">
-                <a href="/kb" class="px-4 py-2.5 rounded-xl border border-slate-300 dark:border-slate-600 text-slate-700 dark:text-slate-300 text-xs font-medium hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+            <div class="pt-2 flex items-center justify-end gap-2 border-t border-slate-200 dark:border-slate-800">
+                <a href="/kb" class="px-3 py-1.5 rounded border border-slate-200 dark:border-slate-700 text-xs text-slate-700 dark:text-slate-300 hover:bg-slate-50 transition">
                     Cancel
                 </a>
-                <button type="submit" class="px-5 py-2.5 rounded-xl bg-brand-600 hover:bg-brand-700 text-white text-xs font-semibold shadow transition">
+                <button type="submit" class="px-4 py-1.5 rounded bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-medium transition">
                     Save Article
                 </button>
             </div>

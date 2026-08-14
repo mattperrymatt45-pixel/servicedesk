@@ -3,75 +3,67 @@
 {% block title %}{{ article.title }} - Knowledge Base{% endblock %}
 
 {% block content %}
-<div class="space-y-6">
-    <!-- Creation Toast Alert -->
-    {% if created %}
-        <div class="rounded-xl bg-emerald-50 dark:bg-emerald-950/40 border border-emerald-200 dark:border-emerald-800 p-4 text-emerald-800 dark:text-emerald-300 text-xs font-medium flex items-center justify-between shadow-sm">
-            <div class="flex items-center gap-2">
-                <span class="text-base">✅</span>
-                <span>Knowledge Base article <strong>KB-{{ "%04d" % article.id }}</strong> was successfully created!</span>
-            </div>
-            <button onclick="this.parentElement.remove()" class="text-emerald-600 hover:text-emerald-800 font-bold">✕</button>
-        </div>
-    {% endif %}
+<div class="space-y-4">
 
-    <!-- Top Action / Breadcrumbs -->
-    <div class="flex items-center justify-between gap-4">
-        <a href="/kb" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-600 dark:text-slate-400 hover:text-brand-600 dark:hover:text-brand-400 transition">
-            <span>←</span>
+    <!-- Top Action / Breadcrumb -->
+    <div class="flex items-center justify-between pb-2 border-b border-slate-200 dark:border-slate-800">
+        <a href="/kb" class="inline-flex items-center gap-1 text-xs font-medium text-slate-600 dark:text-slate-400 hover:text-indigo-600 transition">
+            <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
             <span>Back to Knowledge Base</span>
         </a>
-        <span class="text-xs font-mono text-slate-400">ID: KB-{{ "%04d" % article.id }}</span>
+        <span class="font-mono text-xs font-semibold text-slate-400">ID: KB-{{ "%04d" % article.id }}</span>
     </div>
 
-    <!-- Main Content Grid -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
-        
-        <!-- Main Article Container -->
-        <div class="lg:col-span-8 space-y-6">
-            <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 sm:p-8 shadow-sm space-y-6">
+    <!-- Main Content Layout Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-4">
+
+        <!-- Left Column: Article Body (8 cols) -->
+        <div class="lg:col-span-8 space-y-4">
+            
+            <div class="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-5 shadow-xs space-y-4">
                 
-                <!-- Article Header -->
-                <div class="space-y-3 border-b border-slate-200 dark:border-slate-700 pb-5">
-                    <div class="flex flex-wrap items-center gap-2">
-                        <span class="inline-flex items-center gap-1 rounded-md bg-brand-50 dark:bg-brand-900/40 px-3 py-1 text-xs font-semibold text-brand-700 dark:text-brand-300 ring-1 ring-inset ring-brand-700/10">
-                            🏷️ {{ article.category }}
+                <div class="pb-3 border-b border-slate-200 dark:border-slate-800 space-y-2">
+                    <div class="flex items-center gap-2">
+                        <span class="text-xs px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 font-medium">
+                            {{ article.category }}
                         </span>
-                        <span class="text-xs text-slate-400">Published {{ article.created_at.strftime('%B %d, %Y') }}</span>
+                        <span class="text-xs text-slate-400">Published {{ article.created_at.strftime('%b %d, %Y') }}</span>
                     </div>
 
-                    <h1 class="text-2xl sm:text-3xl font-extrabold text-slate-900 dark:text-white tracking-tight">
+                    <h1 class="text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                         {{ article.title }}
                     </h1>
                 </div>
 
-                <!-- Problem Statement Section -->
-                <div class="space-y-2">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-rose-600 dark:text-rose-400 flex items-center gap-2">
-                        <span>⚠️</span> Problem Statement / Symptoms
+                <!-- Problem Description -->
+                <div class="space-y-1">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-rose-700 dark:text-rose-400 flex items-center gap-1">
+                        <i data-lucide="alert-circle" class="w-3.5 h-3.5"></i>
+                        <span>Problem Statement & Symptoms</span>
                     </h2>
-                    <div class="rounded-xl bg-rose-50/50 dark:bg-rose-950/20 border border-rose-200/60 dark:border-rose-900/40 p-4 text-xs sm:text-sm text-slate-700 dark:text-slate-300 leading-relaxed whitespace-pre-line">
+                    <div class="p-3 rounded border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-xs text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-line">
                         {{ article.problem }}
                     </div>
                 </div>
 
-                <!-- Solution / Step-by-Step Resolution Section -->
-                <div class="space-y-2">
-                    <h2 class="text-sm font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 flex items-center gap-2">
-                        <span>🛠️</span> Solution / Standard Resolution Guide
+                <!-- Solution SOP -->
+                <div class="space-y-1">
+                    <h2 class="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 flex items-center gap-1">
+                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+                        <span>Standard Operating Fix</span>
                     </h2>
-                    <div class="rounded-xl bg-emerald-50/50 dark:bg-emerald-950/20 border border-emerald-200/60 dark:border-emerald-900/40 p-5 text-xs sm:text-sm text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-line font-normal">
+                    <div class="p-3.5 rounded border border-slate-200 dark:border-slate-800 bg-slate-50 dark:bg-slate-950 text-xs text-slate-800 dark:text-slate-200 leading-relaxed whitespace-pre-line font-mono">
                         {{ article.solution }}
                     </div>
                 </div>
 
-                <!-- Keywords Section -->
+                <!-- Keywords -->
                 {% if article.keywords %}
-                    <div class="pt-4 border-t border-slate-100 dark:border-slate-700/60 space-y-2">
-                        <h3 class="text-xs font-semibold text-slate-500 uppercase tracking-wider">Search Tags & Keywords</h3>
-                        <div class="flex flex-wrap gap-1.5">
+                    <div class="pt-3 border-t border-slate-200 dark:border-slate-800 space-y-1">
+                        <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider block">Tags & Keywords</span>
+                        <div class="flex flex-wrap gap-1">
                             {% for kw in article.keywords.split(',') %}
-                                <a href="/kb?q={{ kw.strip() }}" class="inline-block bg-slate-100 dark:bg-slate-900 hover:bg-brand-50 dark:hover:bg-brand-900/40 text-slate-700 dark:text-slate-300 hover:text-brand-600 px-2.5 py-1 rounded-md text-xs font-mono transition">
+                                <a href="/kb?q={{ kw.strip() }}" class="px-2 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:text-indigo-600 text-[11px] font-mono transition">
                                     #{{ kw.strip() }}
                                 </a>
                             {% endfor %}
@@ -82,40 +74,27 @@
             </div>
         </div>
 
-        <!-- Sidebar Details Box -->
-        <div class="lg:col-span-4 space-y-6">
-            <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-6 shadow-sm space-y-4">
-                <h3 class="text-sm font-bold text-slate-900 dark:text-white border-b border-slate-200 dark:border-slate-700 pb-3 flex items-center gap-2">
-                    <span>📌</span> Article Metadata
+        <!-- Right Metadata Sidebar (4 cols) -->
+        <div class="lg:col-span-4 space-y-4">
+            <div class="rounded border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 p-4 shadow-xs space-y-3">
+                <h3 class="text-xs font-bold uppercase tracking-wider text-slate-800 dark:text-slate-200 pb-2 border-b border-slate-200 dark:border-slate-800">
+                    Article Metadata
                 </h3>
 
-                <div class="space-y-3 text-xs">
-                    <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-700/50">
-                        <span class="text-slate-500 dark:text-slate-400">Article Reference:</span>
-                        <span class="font-mono font-bold text-slate-800 dark:text-slate-200">KB-{{ "%04d" % article.id }}</span>
+                <div class="space-y-2 text-xs">
+                    <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
+                        <span class="text-slate-500">Reference:</span>
+                        <span class="font-mono font-semibold">KB-{{ "%04d" % article.id }}</span>
                     </div>
 
-                    <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-700/50">
-                        <span class="text-slate-500 dark:text-slate-400">Category:</span>
-                        <span class="font-semibold text-brand-600 dark:text-brand-400">{{ article.category }}</span>
+                    <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-800">
+                        <span class="text-slate-500">Category:</span>
+                        <span class="font-semibold">{{ article.category }}</span>
                     </div>
 
-                    <div class="flex justify-between py-1 border-b border-slate-100 dark:border-slate-700/50">
-                        <span class="text-slate-500 dark:text-slate-400">Date Added:</span>
-                        <span class="text-slate-700 dark:text-slate-300">{{ article.created_at.strftime('%Y-%m-%d') }}</span>
-                    </div>
-                </div>
-
-                <!-- AI Service Compatibility Banner -->
-                <div class="pt-2">
-                    <div class="p-3.5 rounded-xl bg-indigo-50 dark:bg-indigo-950/40 border border-indigo-200 dark:border-indigo-800/50 space-y-2">
-                        <div class="flex items-center gap-2 text-xs font-bold text-indigo-700 dark:text-indigo-300">
-                            <span>🤖</span>
-                            <span>AI Matching Indexed</span>
-                        </div>
-                        <p class="text-[11px] text-indigo-900/80 dark:text-indigo-300/80 leading-relaxed">
-                            This article is indexed by the KnowledgeBaseService and will automatically be suggested by Gemini AI during ticket triage in Phase 4.
-                        </p>
+                    <div class="flex justify-between py-1">
+                        <span class="text-slate-500">Indexed for AI:</span>
+                        <span class="font-semibold text-emerald-600 dark:text-emerald-400">Yes (Groq Ready)</span>
                     </div>
                 </div>
             </div>
