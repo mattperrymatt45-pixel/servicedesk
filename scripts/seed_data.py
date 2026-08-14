@@ -11,8 +11,11 @@ from scripts.import_dataset import import_huggingface_dataset
 
 
 def seed_database():
-    """Seed database with Hugging Face dataset for KB and realistic support tickets."""
-    print("🌱 Checking database state for seeding...")
+    """
+    Seed database by downloading Knowledge Base dataset from Hugging Face
+    and populating sample support tickets.
+    """
+    print("🌱 Initializing Database Seeder...")
     
     # Ensure tables exist
     Base.metadata.create_all(bind=engine)
@@ -20,22 +23,21 @@ def seed_database():
     db = SessionLocal()
     try:
         kb_count = db.query(KBArticle).count()
-        ticket_count = db.query(Ticket).count()
 
+        # 1. Import Knowledge Base exclusively from Hugging Face dataset
         if kb_count == 0:
             print("🚀 Importing Knowledge Base from Hugging Face dataset (mindweave/help-desk-tickets)...")
-            import_huggingface_dataset(max_records=200, clear_existing=False)
+            import_huggingface_dataset(target_count=100, clear_existing=False)
         else:
             print(f"ℹ️ Knowledge Base already contains {kb_count} articles.")
 
+        ticket_count = db.query(Ticket).count()
         if ticket_count > 0:
             print(f"ℹ️ Database already contains {ticket_count} support tickets. Skipping ticket seed.")
             return
 
-        # ----------------------------------------------------
-        # Seed 12 Realistic Support Tickets
-        # ----------------------------------------------------
-        print("🚀 Seeding Support Tickets...")
+        # 2. Seed 12 Sample Support Tickets
+        print("🚀 Seeding Sample Support Tickets...")
         now = datetime.now(timezone.utc)
 
         tickets_data = [
