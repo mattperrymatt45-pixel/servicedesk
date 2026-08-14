@@ -1,0 +1,110 @@
+{% extends "base.html" %}
+
+{% block title %}Home - {{ app_name }}{% endblock %}
+
+{% block content %}
+<div class="space-y-8">
+    <!-- Hero Banner -->
+    <div class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-brand-700 via-indigo-700 to-purple-800 p-8 text-white shadow-xl">
+        <div class="relative z-10 max-w-2xl space-y-4">
+            <span class="inline-flex items-center gap-1.5 rounded-full bg-white/10 px-3 py-1 text-xs font-semibold backdrop-blur border border-white/20">
+                ⚡ Application Foundation Ready
+            </span>
+            <h1 class="text-3xl font-extrabold tracking-tight sm:text-4xl">
+                AI-Powered Service Desk 🛠️
+            </h1>
+            <p class="text-slate-200 text-sm sm:text-base leading-relaxed">
+                Welcome to the high-performance Service Desk web application platform powered by FastAPI, SQLAlchemy, and Google Gemini 2.5 Flash API.
+            </p>
+            <div class="pt-2 flex flex-wrap gap-3">
+                <a href="/health" class="inline-flex items-center gap-2 rounded-xl bg-white px-4 py-2.5 text-sm font-semibold text-brand-900 shadow hover:bg-slate-100 transition-all">
+                    <span>🟢 API Health Status</span>
+                </a>
+            </div>
+        </div>
+        <div class="absolute -right-10 -bottom-10 opacity-10 text-9xl select-none font-bold">
+            🛠️
+        </div>
+    </div>
+
+    <!-- Phase 1 System Architecture Summary -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Card 1: Backend Architecture -->
+        <div class="rounded-2xl bg-white dark:bg-slate-800 p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+            <div class="h-10 w-10 rounded-xl bg-brand-100 dark:bg-brand-900/50 flex items-center justify-center text-brand-600 dark:text-brand-300 text-xl font-bold">
+                ⚡
+            </div>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">FastAPI Core</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Asynchronous Web & REST framework with native Pydantic v2 schemas and request validation.
+            </p>
+            <div class="pt-2 border-t border-slate-100 dark:border-slate-700/50 text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                <span>✓ Status: Active</span>
+            </div>
+        </div>
+
+        <!-- Card 2: Database Layer -->
+        <div class="rounded-2xl bg-white dark:bg-slate-800 p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+            <div class="h-10 w-10 rounded-xl bg-indigo-100 dark:bg-indigo-900/50 flex items-center justify-center text-indigo-600 dark:text-indigo-300 text-xl font-bold">
+                🗄️
+            </div>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">SQLAlchemy 2.0 ORM</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                SQLite storage with models for <code class="font-mono bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded text-slate-700 dark:text-slate-300">Ticket</code>, <code class="font-mono bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded text-slate-700 dark:text-slate-300">KBArticle</code>, and <code class="font-mono bg-slate-100 dark:bg-slate-900 px-1 py-0.5 rounded text-slate-700 dark:text-slate-300">TicketActivity</code>.
+            </p>
+            <div class="pt-2 border-t border-slate-100 dark:border-slate-700/50 text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                <span>✓ Database: Connected (<code class="font-mono">data/support.db</code>)</span>
+            </div>
+        </div>
+
+        <!-- Card 3: UI & Templating -->
+        <div class="rounded-2xl bg-white dark:bg-slate-800 p-6 border border-slate-200 dark:border-slate-700 shadow-sm space-y-3">
+            <div class="h-10 w-10 rounded-xl bg-purple-100 dark:bg-purple-900/50 flex items-center justify-center text-purple-600 dark:text-purple-300 text-xl font-bold">
+                🎨
+            </div>
+            <h2 class="text-lg font-bold text-slate-900 dark:text-white">Enterprise UI Layer</h2>
+            <p class="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
+                Tailwind CSS styling with responsive sidebar layout, dark mode support, and Jinja2 templates.
+            </p>
+            <div class="pt-2 border-t border-slate-100 dark:border-slate-700/50 text-xs text-emerald-600 dark:text-emerald-400 font-semibold flex items-center gap-1">
+                <span>✓ Theme: Light & Dark Mode Ready</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- Active Models Overview Table -->
+    <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+        <div class="px-6 py-4 border-b border-slate-200 dark:border-slate-700 bg-slate-50/50 dark:bg-slate-800/50 flex items-center justify-between">
+            <h3 class="text-base font-bold text-slate-900 dark:text-white flex items-center gap-2">
+                <span>📋</span> Configured Database Entities (Phase 1)
+            </h3>
+            <span class="text-xs font-mono bg-slate-200 dark:bg-slate-700 text-slate-700 dark:text-slate-300 px-2 py-1 rounded-md">3 Models Initialized</span>
+        </div>
+        <div class="p-6">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs">
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 space-y-2">
+                    <div class="font-bold text-sm text-brand-600 dark:text-brand-400 flex items-center justify-between">
+                        <span>Ticket</span>
+                        <span class="font-mono text-xs text-slate-400">tickets</span>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400">Stores issue details, status, priority, category, AI triage results, and final resolutions.</p>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 space-y-2">
+                    <div class="font-bold text-sm text-indigo-600 dark:text-indigo-400 flex items-center justify-between">
+                        <span>KBArticle</span>
+                        <span class="font-mono text-xs text-slate-400">kb_articles</span>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400">Stores knowledge base documentation (problem, solution, keywords) for support lookup.</p>
+                </div>
+                <div class="p-4 rounded-xl bg-slate-50 dark:bg-slate-900/50 border border-slate-200 dark:border-slate-700 space-y-2">
+                    <div class="font-bold text-sm text-purple-600 dark:text-purple-400 flex items-center justify-between">
+                        <span>TicketActivity</span>
+                        <span class="font-mono text-xs text-slate-400">ticket_activities</span>
+                    </div>
+                    <p class="text-slate-600 dark:text-slate-400">Audits and tracks lifecycle changes, status updates, and notes with foreign key cascade.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

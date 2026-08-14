@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}500 - Internal Server Error{% endblock %}
+
+{% block content %}
+<div class="min-h-[50vh] flex flex-col items-center justify-center text-center space-y-4">
+    <div class="h-20 w-20 rounded-full bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 flex items-center justify-center text-4xl shadow-inner">
+        ⚠️
+    </div>
+    <h1 class="text-4xl font-extrabold text-slate-900 dark:text-white">500 - Server Error</h1>
+    <p class="text-slate-600 dark:text-slate-400 max-w-md">
+        An unexpected error occurred while processing your request.
+    </p>
+    <a href="/" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 text-white px-5 py-2.5 font-medium shadow hover:bg-brand-700 transition">
+        <span>🏠 Return Home</span>
+    </a>
+</div>
+{% endblock %}
