@@ -37,7 +37,7 @@
                     <span class="text-xl">🛠️</span>
                 </div>
                 <div>
-                    <a href="/" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-90">
+                    <a href="/tickets" class="text-lg font-bold tracking-tight text-slate-900 dark:text-white hover:opacity-90">
                         {{ app_name }}
                     </a>
                     <span class="ml-2 inline-flex items-center rounded-md bg-brand-50 dark:bg-brand-900/40 px-2 py-0.5 text-xs font-medium text-brand-700 dark:text-brand-300 ring-1 ring-inset ring-brand-700/10">
@@ -48,9 +48,12 @@
 
             <!-- Navbar Actions -->
             <div class="flex items-center gap-3">
+                <a href="/tickets/new" class="hidden sm:inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-brand-600 text-white hover:bg-brand-700 transition shadow-sm">
+                    <span>➕ New Ticket</span>
+                </a>
+
                 <a href="/kb" class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700 transition">
-                    <span>📚</span>
-                    <span>Knowledge Base</span>
+                    <span>📚 Knowledge Base</span>
                 </a>
 
                 <!-- System Status Indicator -->
@@ -76,20 +79,14 @@
             <div class="space-y-1">
                 <p class="px-3 text-xs font-semibold uppercase tracking-wider text-slate-400 dark:text-slate-500">Navigation</p>
                 
-                <a href="/" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
-                    <span class="text-lg">📊</span>
-                    <span>Overview Dashboard</span>
-                </a>
-
-                <a href="/kb" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
-                    <span class="text-lg">📚</span>
-                    <span>Knowledge Base</span>
-                </a>
-
-                <a href="#" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 opacity-60 cursor-not-allowed" title="Phase 3: Tickets">
+                <a href="/tickets" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-semibold bg-brand-50 text-brand-700 dark:bg-brand-900/30 dark:text-brand-300">
                     <span class="text-lg">🎫</span>
                     <span>Support Tickets</span>
-                    <span class="ml-auto text-xs bg-slate-200 dark:bg-slate-700 text-slate-600 dark:text-slate-300 px-1.5 py-0.5 rounded">Soon</span>
+                </a>
+
+                <a href="/kb" class="flex items-center gap-3 rounded-lg px-3 py-2 text-sm font-medium text-slate-600 dark:text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+                    <span class="text-lg">📚</span>
+                    <span>Knowledge Base</span>
                 </a>
             </div>
 
@@ -100,13 +97,13 @@
                         <span>🤖</span>
                         <span>Gemini 2.5 Flash</span>
                     </div>
-                    <p class="text-xs text-slate-500 dark:text-slate-400">KB repository ready for AI semantic search & ticket auto-triage (Phase 4).</p>
+                    <p class="text-xs text-slate-500 dark:text-slate-400">Ticket management ready for automated AI triage & KB matching (Phase 4).</p>
                 </div>
             </div>
 
             <!-- Sidebar Footer Status -->
             <div class="mt-auto pt-4 border-t border-slate-200 dark:border-slate-800 text-xs text-slate-500">
-                <p>Status: <span class="font-semibold text-emerald-600 dark:text-emerald-400">Phase 2 KB Module</span></p>
+                <p>Status: <span class="font-semibold text-emerald-600 dark:text-emerald-400">Phase 3 Ticket Lifecycle</span></p>
                 <p class="mt-1">Database: <span class="font-mono text-slate-700 dark:text-slate-300">SQLite Connected</span></p>
             </div>
         </aside>
@@ -131,6 +128,8 @@
                 © 2026 {{ app_name }} • AI-Powered Service Desk Solution
             </div>
             <div class="flex items-center gap-4">
+                <a href="/tickets" class="hover:underline text-brand-600 dark:text-brand-400">Tickets 🎫</a>
+                <span>•</span>
                 <a href="/kb" class="hover:underline text-brand-600 dark:text-brand-400">Knowledge Base 📚</a>
                 <span>•</span>
                 <a href="/health" class="hover:underline text-brand-600 dark:text-brand-400">Health Check 🟢</a>

@@ -1,7 +1,7 @@
 import logging
 from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Depends, HTTPException, status
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
@@ -10,7 +10,7 @@ from sqlalchemy import text
 
 from app.config import settings
 from app.database import engine, Base, get_db
-from app.routers import kb
+from app.routers import kb, tickets
 
 # Configure structured logging
 logging.basicConfig(
@@ -43,6 +43,7 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
 # Register Routers
+app.include_router(tickets.router)
 app.include_router(kb.router)
 
 
@@ -105,14 +106,8 @@ async def unhandled_exception_handler(request: Request, exc: Exception):
 # ==========================================
 @app.get("/", response_class=HTMLResponse)
 async def root(request: Request):
-    """Root landing page rendering the base enterprise layout."""
-    return templates.TemplateResponse(
-        request=request,
-        name="index.html",
-        context={
-            "app_name": settings.APP_NAME
-        }
-    )
+    """Root landing page redirects directly to the main Support Tickets Dashboard."""
+    return RedirectResponse(url="/tickets", status_code=status.HTTP_303_SEE_OTHER)
 
 
 @app.get("/health")
