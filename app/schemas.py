@@ -81,3 +81,24 @@ class KBArticleRead(KBArticleBase):
     created_at: datetime
 
     model_config = ConfigDict(from_attributes=True)
+
+
+# ==========================================
+# AI Service Schemas (Phase 4)
+# ==========================================
+class AITriageResult(BaseModel):
+    summary: str = Field(..., description="Concise summary of the incident")
+    recommended_category: str = Field(..., description="Recommended ticket category")
+    recommended_priority: str = Field(..., description="Recommended ticket priority (Low, Medium, High, Urgent)")
+    root_cause: str = Field(..., description="Probable root cause analysis")
+    troubleshooting_steps: List[str] = Field(..., description="Actionable troubleshooting steps for engineer")
+    suggested_resolution: str = Field(..., description="Recommended resolution guide")
+    confidence: int = Field(default=85, ge=0, le=100, description="AI confidence score 0-100%")
+    difficulty: str = Field(default="Medium", description="Estimated fix difficulty: Easy, Medium, Hard, Complex")
+
+
+class AICustomerReply(BaseModel):
+    greeting: str = Field(..., description="Polite customer greeting")
+    body: str = Field(..., description="Non-technical, clear explanation of status/fix")
+    closing: str = Field(..., description="Friendly closing sign-off")
+    full_reply: str = Field(..., description="Complete combined customer reply email text")

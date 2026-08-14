@@ -10,7 +10,7 @@ from sqlalchemy import text
 
 from app.config import settings
 from app.database import engine, Base, get_db
-from app.routers import kb, tickets
+from app.routers import kb, tickets, ai
 
 # Configure structured logging
 logging.basicConfig(
@@ -45,6 +45,7 @@ templates = Jinja2Templates(directory="app/templates")
 # Register Routers
 app.include_router(tickets.router)
 app.include_router(kb.router)
+app.include_router(ai.router)
 
 
 # ==========================================
