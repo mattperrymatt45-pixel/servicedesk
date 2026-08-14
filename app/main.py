@@ -10,7 +10,9 @@ from sqlalchemy import text
 
 from app.config import settings
 from app.database import engine, Base, get_db
-from app.routers import kb, tickets, ai
+from app.models import Ticket, KBArticle
+from app.services.ai_service import AIService
+from app.routers import kb, tickets, ai, dashboard
 
 # Configure structured logging
 logging.basicConfig(
@@ -23,7 +25,7 @@ logger = logging.getLogger("service_desk")
 @asynccontextmanager
 async def lifespan(app: FastAPI):
     """Application lifespan event handler to initialize database schema on startup."""
-    logger.info("Initializing database tables...")
+    logger.info("Initializing application database tables...")
     Base.metadata.create_all(bind=engine)
     logger.info("Application startup completed successfully.")
     yield
@@ -43,6 +45,7 @@ app.mount("/static", StaticFiles(directory="app/static"), name="static")
 templates = Jinja2Templates(directory="app/templates")
 
 # Register Routers
+app.include_router(dashboard.router)
 app.include_router(tickets.router)
 app.include_router(kb.router)
 app.include_router(ai.router)
@@ -113,7 +116,10 @@ async def root(request: Request):
 
 @app.get("/health")
 async def health_check(db: Session = Depends(get_db)):
-    """Health check endpoint verifying application liveness and database connection."""
+    """
+    Comprehensive health check endpoint verifying liveness, DB connection,
+    AI client configuration, and record counts.
+    """
     try:
         db.execute(text("SELECT 1"))
         db_status = "connected"
@@ -121,8 +127,22 @@ async def health_check(db: Session = Depends(get_db)):
         logger.error(f"Health check DB connection failed: {e}")
         db_status = "disconnected"
 
+    # Check AI Service Client
+    ai_available = "available" if AIService._get_client() is not None else "unavailable"
+
+    # Fetch Record Counts
+    try:
+        kb_count = db.query(KBArticle).count()
+        ticket_count = db.query(Ticket).count()
+    except Exception:
+        kb_count = 0
+        ticket_count = 0
+
     return {
         "status": "healthy" if db_status == "connected" else "degraded",
-        "app_name": settings.APP_NAME,
-        "database": db_status
+        "database": db_status,
+        "ai_service": ai_available,
+        "knowledge_base_articles": kb_count,
+        "tickets": ticket_count,
+        "app_name": settings.APP_NAME
     }

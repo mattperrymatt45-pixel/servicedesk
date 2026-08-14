@@ -1,0 +1,114 @@
+{% extends "base.html" %}
+
+{% block title %}Search Results for "{{ search_query }}" - {{ app_name }}{% endblock %}
+
+{% block content %}
+<div class="space-y-6">
+
+    <!-- Header Bar -->
+    <div class="border-b border-slate-200 dark:border-slate-800 pb-4">
+        <h1 class="text-2xl font-bold tracking-tight text-slate-900 dark:text-white flex items-center gap-2">
+            <span>🔍</span> Global Search Results
+        </h1>
+        <p class="text-xs text-slate-500 dark:text-slate-400 mt-1">
+            Found <span class="font-bold text-slate-800 dark:text-slate-200">{{ total_matches }}</span> result{% if total_matches != 1 %}s{% endif %} matching "<span class="font-semibold text-brand-600 dark:text-brand-400">{{ search_query }}</span>"
+        </p>
+    </div>
+
+    {% if total_matches > 0 %}
+        <!-- Section 1: Matched Support Tickets -->
+        {% if ticket_results %}
+            <div class="space-y-3">
+                <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-2">
+                    <span>🎫</span> Support Incidents ({{ ticket_results|length }})
+                </h2>
+
+                <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 shadow-sm overflow-hidden">
+                    <div class="divide-y divide-slate-100 dark:divide-slate-700/60">
+                        {% for ticket in ticket_results %}
+                            <div class="p-4 hover:bg-slate-50 dark:hover:bg-slate-700/30 transition flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                                <div class="space-y-1">
+                                    <div class="flex items-center gap-2">
+                                        <span class="font-mono text-xs font-bold text-slate-400">#TCK-{{ "%04d" % ticket.id }}</span>
+                                        <span class="inline-flex items-center gap-1 rounded-md bg-brand-50 dark:bg-brand-900/40 px-2 py-0.5 text-[11px] font-semibold text-brand-700 dark:text-brand-300">
+                                            🏷️ {{ ticket.category }}
+                                        </span>
+                                        <span class="text-xs font-semibold px-2 py-0.5 rounded-full border bg-slate-100 dark:bg-slate-800 text-slate-700 dark:text-slate-300">
+                                            {{ ticket.status }}
+                                        </span>
+                                    </div>
+                                    <a href="/tickets/{{ ticket.id }}" class="text-sm font-bold text-slate-900 dark:text-white hover:text-brand-600">
+                                        {{ ticket.title }}
+                                    </a>
+                                    <p class="text-xs text-slate-500 dark:text-slate-400 line-clamp-1">
+                                        {{ ticket.description }}
+                                    </p>
+                                </div>
+                                <div>
+                                    <a href="/tickets/{{ ticket.id }}" class="inline-flex items-center gap-1 px-3 py-1.5 rounded-xl bg-slate-100 dark:bg-slate-700 text-slate-700 dark:text-slate-200 hover:bg-brand-600 hover:text-white text-xs font-semibold transition">
+                                        View Ticket →
+                                    </a>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+
+        <!-- Section 2: Matched Knowledge Base Articles -->
+        {% if kb_results %}
+            <div class="space-y-3 pt-4">
+                <h2 class="text-sm font-bold text-slate-900 dark:text-white flex items-center gap-2 border-b border-slate-200 dark:border-slate-700 pb-2">
+                    <span>📚</span> Knowledge Base SOPs ({{ kb_results|length }})
+                </h2>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {% for article in kb_results %}
+                        <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-5 shadow-sm space-y-3 hover:border-brand-500 transition">
+                            <div class="flex items-center justify-between">
+                                <span class="inline-flex items-center gap-1 rounded-md bg-brand-50 dark:bg-brand-900/40 px-2 py-0.5 text-xs font-semibold text-brand-700 dark:text-brand-300">
+                                    🏷️ {{ article.category }}
+                                </span>
+                                <span class="font-mono text-xs text-slate-400">KB-{{ "%04d" % article.id }}</span>
+                            </div>
+                            <h3 class="text-sm font-bold text-slate-900 dark:text-white hover:text-brand-600">
+                                <a href="/kb/{{ article.id }}">{{ article.title }}</a>
+                            </h3>
+                            <p class="text-xs text-slate-600 dark:text-slate-400 line-clamp-2">
+                                {{ article.problem }}
+                            </p>
+                            <div class="pt-2 flex justify-end">
+                                <a href="/kb/{{ article.id }}" class="text-xs font-semibold text-brand-600 hover:underline">
+                                    Read Article Solution →
+                                </a>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        {% endif %}
+
+    {% else %}
+        <!-- Empty State -->
+        <div class="rounded-2xl bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 p-12 text-center space-y-4">
+            <div class="h-16 w-16 rounded-full bg-slate-100 dark:bg-slate-900 text-slate-400 flex items-center justify-center text-3xl mx-auto">
+                🔎
+            </div>
+            <h3 class="text-lg font-bold text-slate-900 dark:text-white">No Results Found</h3>
+            <p class="text-xs text-slate-500 dark:text-slate-400 max-w-md mx-auto">
+                No tickets or Knowledge Base articles matched your search query "<span class="font-semibold text-brand-600">{{ search_query }}</span>".
+            </p>
+            <div class="pt-2 flex items-center justify-center gap-3">
+                <a href="/tickets" class="inline-flex items-center gap-2 rounded-xl bg-brand-600 text-white px-4 py-2 text-xs font-semibold shadow hover:bg-brand-700 transition">
+                    View All Incidents
+                </a>
+                <a href="/kb" class="inline-flex items-center gap-2 rounded-xl border border-slate-300 dark:border-slate-600 px-4 py-2 text-xs font-semibold hover:bg-slate-100 dark:hover:bg-slate-700 transition">
+                    Browse Knowledge Base
+                </a>
+            </div>
+        </div>
+    {% endif %}
+
+</div>
+{% endblock %}
