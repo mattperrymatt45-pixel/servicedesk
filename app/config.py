@@ -7,8 +7,10 @@ class Settings(BaseSettings):
     DEBUG: bool = True
     DATABASE_URL: str = "sqlite:///./data/support.db"
     GROQ_API_KEY: Optional[str] = ""
-    GROQ_MODEL: str = "llama-3.3-70b-versatile"
+    AI_MODEL: str = "openai/gpt-oss-120b"
+    GROQ_MODEL: str = "openai/gpt-oss-120b"
     GEMINI_API_KEY: Optional[str] = ""
+    SECRET_KEY: str = "super-secret-service-desk-key-change-in-production"
 
     model_config = SettingsConfigDict(
         env_file=".env",

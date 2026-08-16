@@ -38,6 +38,8 @@ class AIService:
             logger.warning("Groq AI client unavailable. Skipping AI analysis.")
             return None
 
+        model_name = getattr(settings, 'AI_MODEL', None) or settings.GROQ_MODEL
+
         # Build KB context
         kb_context_items = []
         for i, kb in enumerate(kb_articles[:5], start=1):
@@ -55,7 +57,8 @@ class AIService:
             "provide step-by-step troubleshooting actions, suggest a resolution based on the Knowledge Base, "
             "and recommend the correct Category and Priority.\n\n"
             "CRITICAL INSTRUCTION: You MUST return ONLY a valid JSON object matching the required schema. "
-            "Do NOT include markdown formatting (like ```json), commentary, or explanations outside the JSON object."
+            "Do NOT include markdown formatting (like ```json), commentary, or explanations outside the JSON object. "
+            "Keep all JSON text fields concise and direct."
         )
 
         user_prompt = f"""
@@ -91,22 +94,22 @@ Return a single JSON object with these exact keys:
 
         start_time = time.time()
         try:
-            logger.info(f"Triggering Groq AI Triage for Ticket #{ticket.id} using model '{settings.GROQ_MODEL}'...")
+            logger.info(f"Triggering Groq AI Triage for Ticket #{ticket.id} using model '{model_name}'...")
             
             response = client.chat.completions.create(
-                model=settings.GROQ_MODEL,
+                model=model_name,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
                 ],
                 response_format={"type": "json_object"},
                 temperature=0.2,
-                max_tokens=1000
+                max_tokens=2000
             )
 
             elapsed_ms = int((time.time() - start_time) * 1000)
             raw_content = response.choices[0].message.content
-            logger.info(f"Groq API call completed in {elapsed_ms}ms (Model: {settings.GROQ_MODEL}).")
+            logger.info(f"Groq API call completed in {elapsed_ms}ms (Model: {model_name}).")
 
             # Parse JSON
             data = json.loads(raw_content)
@@ -114,13 +117,13 @@ Return a single JSON object with these exact keys:
             return result
 
         except GroqError as ge:
-            logger.error(f"Groq API Error during ticket triage: {ge}")
+            logger.error(f"Groq API Error during ticket triage ({model_name}): {ge}")
             return None
         except json.JSONDecodeError as je:
-            logger.error(f"Failed to parse JSON from Groq response: {je}")
+            logger.error(f"Failed to parse JSON from Groq response ({model_name}): {je}")
             return None
         except Exception as e:
-            logger.error(f"Unexpected error during AI analysis: {e}", exc_info=True)
+            logger.error(f"Unexpected error during AI analysis ({model_name}): {e}", exc_info=True)
             return None
 
     @staticmethod
@@ -133,12 +136,14 @@ Return a single JSON object with these exact keys:
             logger.warning("Groq AI client unavailable. Cannot generate customer reply.")
             return None
 
+        model_name = getattr(settings, 'AI_MODEL', None) or settings.GROQ_MODEL
         status_context = f"Resolution Details: {resolution_text or ticket.final_resolution or ticket.suggested_resolution or 'Issue investigated and fix applied.'}"
 
         system_prompt = (
             "You are an empathetic, professional IT Customer Support Specialist. "
-            "Write a clear, non-technical, friendly email update to a customer regarding their support ticket.\n\n"
-            "Return ONLY a valid JSON object with keys 'greeting', 'body', 'closing', and 'full_reply'."
+            "Write a concise, clear, non-technical, friendly email update to a customer regarding their support ticket.\n\n"
+            "CRITICAL INSTRUCTION: Return ONLY a valid JSON object with keys 'greeting', 'body', 'closing', and 'full_reply'. "
+            "Keep the reply brief and to the point."
         )
 
         user_prompt = f"""
@@ -159,14 +164,14 @@ Output format JSON:
 
         try:
             response = client.chat.completions.create(
-                model=settings.GROQ_MODEL,
+                model=model_name,
                 messages=[
                     {"role": "system", "content": system_prompt},
                     {"role": "user", "content": user_prompt}
                 ],
                 response_format={"type": "json_object"},
                 temperature=0.3,
-                max_tokens=500
+                max_tokens=1500
             )
 
             raw_content = response.choices[0].message.content
@@ -174,5 +179,5 @@ Output format JSON:
             return AICustomerReply(**data)
 
         except Exception as e:
-            logger.error(f"Error generating customer reply via Groq: {e}")
+            logger.error(f"Error generating customer reply via Groq ({model_name}): {e}")
             return None
