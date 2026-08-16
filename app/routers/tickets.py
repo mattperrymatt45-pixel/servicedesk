@@ -1,3 +1,4 @@
+import logging
 from fastapi import APIRouter, Depends, Request, Form, HTTPException, status, Query
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
 from fastapi.templating import Jinja2Templates
@@ -10,6 +11,7 @@ from app.config import settings
 from app.services.ticket_service import TicketService
 from app.schemas import TicketCreate, TicketUpdate, TicketRead
 
+logger = logging.getLogger("service_desk.router.tickets")
 router = APIRouter()
 templates = Jinja2Templates(directory="app/templates")
 
@@ -34,7 +36,7 @@ async def list_tickets(
     deleted: Optional[bool] = False,
     db: Session = Depends(get_db)
 ):
-    """Render tickets list dashboard with search, status/priority/category filters, and pagination."""
+    """Render tickets list dashboard by fetching incidents directly from SQLite database."""
     skip = (page - 1) * page_size
     tickets, total_count = TicketService.get_all_tickets(
         db=db,
@@ -102,7 +104,7 @@ async def create_ticket_action(
     priority: str = Form(...),
     db: Session = Depends(get_db)
 ):
-    """Process ticket submission with Pydantic validation and value preservation on error."""
+    """Process ticket submission with Pydantic validation, SQLite persistence, and database commit."""
     raw_data = {
         "title": title.strip() if title else "",
         "description": description.strip() if description else "",
@@ -112,12 +114,17 @@ async def create_ticket_action(
 
     try:
         ticket_in = TicketCreate(**raw_data)
+        logger.info(f"Processing new ticket submission: Title = '{ticket_in.title}'")
+        
         ticket = TicketService.create_ticket(db, ticket_in)
+        logger.info(f"Ticket ID #{ticket.id} successfully created and committed to database.")
+        
         return RedirectResponse(
             url=f"/tickets/{ticket.id}?created=true",
             status_code=status.HTTP_303_SEE_OTHER
         )
     except ValidationError as e:
+        logger.warning(f"Validation failed for ticket creation: {e.errors()}")
         error_msgs = [f"{err['loc'][0]}: {err['msg']}" for err in e.errors()]
         categories = TicketService.get_categories(db)
         return templates.TemplateResponse(
@@ -144,7 +151,7 @@ async def view_ticket_detail(
     note_added: Optional[bool] = False,
     db: Session = Depends(get_db)
 ):
-    """Render comprehensive Ticket Detail view with activity timeline, resolution, and AI placeholders."""
+    """Render Ticket Detail view fetching directly from database."""
     ticket = TicketService.get_ticket_by_id(db, ticket_id)
     if not ticket:
         raise HTTPException(status_code=404, detail=f"Support Ticket #{ticket_id} not found")
@@ -291,7 +298,7 @@ async def delete_ticket_action(
     ticket_id: int,
     db: Session = Depends(get_db)
 ):
-    """Delete ticket and redirect to tickets list."""
+    """Delete ticket from database and redirect to tickets list."""
     success = TicketService.delete_ticket(db, ticket_id)
     if not success:
         raise HTTPException(status_code=404, detail=f"Ticket #{ticket_id} not found")
@@ -314,7 +321,7 @@ async def api_get_tickets(
     category_val: Optional[str] = Query(None, alias="category"),
     db: Session = Depends(get_db)
 ):
-    """REST API endpoint returning JSON list of tickets."""
+    """REST API endpoint returning JSON list of tickets directly from database."""
     tickets, _ = TicketService.get_all_tickets(
         db, query=q, status=status_val, priority=priority_val, category=category_val
     )
@@ -323,7 +330,7 @@ async def api_get_tickets(
 
 @router.get("/api/tickets/{ticket_id}", response_model=TicketRead)
 async def api_get_ticket(ticket_id: int, db: Session = Depends(get_db)):
-    """REST API endpoint returning a single ticket JSON."""
+    """REST API endpoint returning a single ticket JSON directly from database."""
     ticket = TicketService.get_ticket_by_id(db, ticket_id)
     if not ticket:
         raise HTTPException(status_code=404, detail="Ticket not found")
