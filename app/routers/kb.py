@@ -1,16 +1,15 @@
 from fastapi import APIRouter, Depends, Request, Form, HTTPException, status
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
-from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from typing import Optional, List
 
 from app.database import get_db
 from app.config import settings
+from app.templates_config import templates
 from app.services.kb_service import KBService
 from app.schemas import KBArticleCreate, KBArticleRead
 
 router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
 
 
 # ==========================================

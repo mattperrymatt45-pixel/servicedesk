@@ -1,19 +1,18 @@
 import logging
 from fastapi import APIRouter, Depends, Request, Form, HTTPException, status, Query
 from fastapi.responses import HTMLResponse, RedirectResponse, JSONResponse
-from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from typing import Optional, List
 from pydantic import ValidationError
 
 from app.database import get_db
 from app.config import settings
+from app.templates_config import templates
 from app.services.ticket_service import TicketService
 from app.schemas import TicketCreate, TicketUpdate, TicketRead
 
 logger = logging.getLogger("service_desk.router.tickets")
 router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
 
 VALID_STATUSES = ["Open", "In Progress", "Resolved", "Closed"]
 VALID_PRIORITIES = ["Low", "Medium", "High", "Urgent"]

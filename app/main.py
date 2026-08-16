@@ -3,7 +3,6 @@ from contextlib import asynccontextmanager
 from fastapi import FastAPI, Request, Depends, HTTPException, status
 from fastapi.responses import HTMLResponse, JSONResponse, RedirectResponse
 from fastapi.staticfiles import StaticFiles
-from fastapi.templating import Jinja2Templates
 from starlette.exceptions import HTTPException as StarletteHTTPException
 from sqlalchemy.orm import Session
 from sqlalchemy import text
@@ -12,6 +11,7 @@ from app.config import settings
 from app.database import engine, Base, get_db
 from app.models import Ticket, KBArticle
 from app.services.ai_service import AIService
+from app.templates_config import templates, get_current_ai_model
 from app.routers import kb, tickets, ai, dashboard
 
 # Configure structured logging
@@ -40,9 +40,6 @@ app = FastAPI(
 
 # Mount Static Files
 app.mount("/static", StaticFiles(directory="app/static"), name="static")
-
-# Configure Jinja2 Templates
-templates = Jinja2Templates(directory="app/templates")
 
 # Register Routers
 app.include_router(dashboard.router)
@@ -142,6 +139,7 @@ async def health_check(db: Session = Depends(get_db)):
         "status": "healthy" if db_status == "connected" else "degraded",
         "database": db_status,
         "ai_service": ai_available,
+        "ai_model": get_current_ai_model(),
         "knowledge_base_articles": kb_count,
         "tickets": ticket_count,
         "app_name": settings.APP_NAME

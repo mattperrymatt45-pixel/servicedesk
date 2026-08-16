@@ -1,6 +1,6 @@
 # AI Service Desk 🛠️
 
-An enterprise-grade, production-style AI-powered Service Desk web application built with **Python**, **FastAPI**, **SQLAlchemy 2.0**, **SQLite**, **Jinja2**, **Tailwind CSS**, and **Groq AI (Llama 3.3 70B)**.
+An enterprise-grade, production-style AI-powered Service Desk web application built with **Python**, **FastAPI**, **SQLAlchemy 2.0**, **SQLite**, **Jinja2**, **Tailwind CSS**, and **Groq AI**.
 
 ---
 
@@ -11,11 +11,11 @@ The **AI Service Desk** enables IT support teams to manage technical incidents i
 ### 🌟 Core Capabilities
 - 📊 **Executive Analytics Dashboard**: SQL-driven real-time KPI metrics and interactive **Chart.js** charts (Tickets by Status, Priority, Category, and Daily Creation Trends).
 - 🔍 **Unified Global Search**: Search across Ticket Titles, Descriptions, Ticket IDs (`#TCK-0001`), Knowledge Base SOP Titles, and Keywords.
-- 🤖 **Groq AI Co-Pilot (Llama 3.3 70B)**: Auto-triages tickets, recommends category and priority, identifies probable root cause, generates step-by-step troubleshooting checklists, and estimates fix difficulty.
+- 🤖 **Groq AI Co-Pilot**: Auto-triages tickets, recommends category and priority, identifies probable root cause, generates step-by-step troubleshooting checklists, and estimates fix difficulty dynamically.
 - ✉️ **One-Click AI Customer Reply**: Drafts polite, non-technical customer email responses with a single click and one-touch clipboard copying.
 - 📚 **Hugging Face Knowledge Base Repository**: Automatically seeded with 100 high-quality SOP articles from the `mindweave/help-desk-tickets` dataset.
 - 🎫 **Complete Ticket Management Lifecycle**: Submit incidents, edit properties, record resolution steps, track chronological activity timelines, and manage statuses (Open, In Progress, Resolved, Closed).
-- 🟢 **Comprehensive System Health API**: Liveness check at `/health` reporting DB status, Groq AI availability, and record counts.
+- 🟢 **Comprehensive System Health API**: Liveness check at `/health` reporting DB status, Groq AI availability, configured model, and record counts.
 
 ---
 
@@ -111,7 +111,7 @@ ai_service_desk/
 - **Database & ORM**: SQLAlchemy 2.0, SQLite (`data/support.db`)
 - **Data Validation**: Pydantic v2
 - **Templating & UI**: Jinja2, Tailwind CSS (via CDN), Vanilla JS, Chart.js
-- **AI Integration**: Groq Python SDK (`groq`), Llama 3.3 70B Versatile
+- **AI Integration**: Groq Python SDK (`groq`), dynamically configured model (`AI_MODEL=openai/gpt-oss-120b`)
 - **Dataset**: Hugging Face `datasets` library (`mindweave/help-desk-tickets`)
 
 ---
@@ -150,7 +150,7 @@ Create or update `.env` in the project root directory:
 ```env
 DATABASE_URL=sqlite:///./data/support.db
 GROQ_API_KEY=gsk_your_actual_groq_api_key_here
-GROQ_MODEL=llama-3.3-70b-versatile
+AI_MODEL=openai/gpt-oss-120b
 APP_NAME=AI Service Desk 🛠️
 DEBUG=True
 ```
@@ -192,7 +192,7 @@ Access the application in your browser:
 
 | Feature | Endpoint / Page | Expected Outcome |
 |---|---|---|
-| **Health Check** | `GET /health` | Returns status, DB connection, AI availability, record counts |
+| **Health Check** | `GET /health` | Returns status, DB connection, AI availability, `ai_model`, record counts |
 | **Analytics Dashboard** | `GET /dashboard` | Renders KPI cards and 4 Chart.js charts |
 | **Global Search** | `GET /search?q=VPN` | Returns matching tickets and KB articles |
 | **Submit Ticket** | `POST /tickets` | Validates form, creates ticket, logs `CREATED` activity |
@@ -213,7 +213,7 @@ Access the application in your browser:
    - **Start Command**: `uvicorn app.main:app --host 0.0.0.0 --port $PORT`
 4. Add Environment Variables in Render Dashboard:
    - `GROQ_API_KEY`: Your Groq API key (`gsk_...`)
-   - `GROQ_MODEL`: `llama-3.3-70b-versatile`
+   - `AI_MODEL`: `openai/gpt-oss-120b`
    - `DATABASE_URL`: `sqlite:///./data/support.db`
 5. Click **Deploy**.
 

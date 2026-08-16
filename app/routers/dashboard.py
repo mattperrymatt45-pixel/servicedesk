@@ -1,16 +1,15 @@
 from fastapi import APIRouter, Depends, Request, Query
 from fastapi.responses import HTMLResponse, JSONResponse
-from fastapi.templating import Jinja2Templates
 from sqlalchemy.orm import Session
 from typing import Optional
 
 from app.database import get_db
 from app.config import settings
+from app.templates_config import templates
 from app.services.analytics_service import AnalyticsService
 from app.services.search_service import SearchService
 
 router = APIRouter()
-templates = Jinja2Templates(directory="app/templates")
 
 
 @router.get("/dashboard", response_class=HTMLResponse)
